@@ -16,19 +16,20 @@ class EmergencyCall(MycroftSkill):
 
     @intent_handler(IntentBuilder("EmergencyCallHelper").require("help"))
     def handle_call(self, message, websocket):
-        call_api = skill_api(self.skill_data.identifier, self.skill_data.api_key, message.data["utterance"])
+        call_api = skill_api(self.skill_data.identifier, self.skill_data.api_key, self.skill_data.skill_data, message.data["utterance"])
         print('result call api ' + call_api)
         print('Message Data Utterance ' + message.data["utterance"])
         self.speak('Ich habe hilfe gerufen', websocket=websocket)
 
 
 
-def skill_api(identifier: str, api_key: str, text: str):
+def skill_api(identifier: str, api_key: str, skill_data:str, text: str):
     print ('skill_api')
     #payload = {'customer_id' : data.customer_id, 'api_key': data.api_key}
     payload = {
         'identifier': identifier,
         'api_key': api_key,
+        'skill_data':skill_data,
         'utterance': text
     }
     #response = requests.get(url=skill.auth_skill_url, params=payload, json=dataRequest)
